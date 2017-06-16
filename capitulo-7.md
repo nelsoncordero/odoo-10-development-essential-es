@@ -372,35 +372,10 @@ Deberías ver la habitual secuencia de inicio del servidor en el terminal hasta 
 ```
 
 >>> self
-
-
-
-
-
 res.users(1,)
-
-
-
-
-
 >>> self._name
-
-
-
-
-
 'res.users'
-
-
-
-
-
 >>> self.name
-
-
-
-
-
 u'Administrator'
 
 ```
@@ -423,13 +398,7 @@ Podemos comenzar a inspeccionar nuestro entorno actual con:
 
 
 ```
-
 >>> self.env
-
-
-
-
-
 <openerp.api.Environment object at 0xb3f4f52c>
 ```
 
@@ -443,15 +412,8 @@ El entorno de ejecución en `self.env` tiene los siguientes atributos disponible
 El entorno también proporciona acceso al registro donde están disponibles todos los modelos instalados. Por ejemplo, `self.env['res.partner']` devuelve una referencia al modelo Socios. Podemos usar `search()` o `browse()` para recuperar los conjuntos de registros:
 
 ```
-
 >>> self.env['res.partner'].search([('name', 'like', 'Ag')])
-
-
-
-
-
 res.partner(7, 51)
-
 
 ```
 
@@ -471,17 +433,8 @@ Estos métodos se pueden utilizar para eso:
 Además, tenemos la función `env.ref()`, tomando una cadena con un identificador externo y devuelve un registro para ella, como se muestra aquí:
 
 ```
-
 >>> self.env.ref('base.user_root')
-
-
-
-
-
 res.users(1,)
-
-
-
 ```
 
 ### Transacciones y SQL de bajo nivel
@@ -510,27 +463,11 @@ Si está utilizando una consulta `SELECT`, los registros se deben buscar. La fun
 
 
 ```
-
 >>> self.env.cr.execute("SELECT id, login FROM res_users WHERE 
-
-
-
-
-
 login=%s OR id=%s", ('demo', 1))
-
-
-
-
-
 >>> self.env.cr.fetchall() 
-
-
-
-
-
 [(4, u'demo'), (1, u'admin')]
-
+```
 
 
 También es posible ejecutar instrucciones de **Data Manipulation Language (DML)** como `UPDATE` e `INSERT`. Dado que el servidor mantiene cachés de datos, pueden volverse inconsistentes con los datos reales de la base de datos. Debido a esto, mientras se utiliza DML sin procesar, las caches se deben borrar después usando `self.env.invalidate_all()`.
@@ -564,32 +501,11 @@ El método `browse()` toma una lista de IDs o una sola ID y devuelve un conjunto
 
 Algunos ejemplos de uso de esto se muestran aquí:
 
-
 ```
-
 >>> self.env['res.partner'].search([('name', 'like', 'Ag')])
-
-
-
-
-
 res.partner(7, 51)
-
-
-
-
-
 >>> self.env['res.partner'].browse([7, 51])
-
-
-
-
-
-
 res.partner(7, 51)
-
-
-
 ```
 
 ### Singletons
@@ -624,40 +540,12 @@ Ten en cuenta que un registro vacío también es un singleton.
 Los conjuntos de registros implementan el patrón de registro activo. Esto significa que podemos asignar valores a ellos, y estos cambios se harán persistentes en la base de datos. Esta es una manera intuitiva y conveniente de manipular datos, como se muestra aquí:
 
 ```
-
 >>> admin = self.env['res.users'].browse(1)
-
-
-
-
-
 >>> print admin.name
-
-
-
-
-
 Administrator
-
-
-
-
-
 >>> admin.name = 'Superuser'
-
-
-
-
-
 >>> print admin.name
-
-
-
-
-
 Superuser
-
-
 ```
 
 Los conjuntos de registros también tienen tres métodos para actuar en sus datos: `create()`, `write()` y `unlink()`.
@@ -665,48 +553,18 @@ Los conjuntos de registros también tienen tres métodos para actuar en sus dato
 El método `create()` toma un diccionario para asignar los campos a los valores y devuelve el registro creado. Los valores predeterminados se aplican automáticamente como se espera, lo que se muestra aquí:
 
 ```
-
 >>> Partner = self.env['res.partner']
-
-
-
-
-
 >>> new = Partner.create({'name': 'ACME', 'is_company': True})
-
-
-
-
-
 >>> print new
-
-
-
-
-
 res.partner(72,)
-
-
 ```
 
 El método `unlink()` borra los registros en los conjuntos de registros, como se muestra aquí:
 
 ```
-
 >>> rec = Partner.search([('name', '=', 'ACME')])
-
-
-
-
-
 >>> rec.unlink()
-
-
-
-
-
 True
-
 ```
 
 El método `write()` toma un diccionario para asignar campos a valores. Éstos se actualizan en todos los elementos del conjunto de registros y no se devuelve nada, como se muestra aquí:
@@ -720,15 +578,8 @@ El uso del patrón de registro activo tiene algunas limitaciones; Actualiza sól
 También vale la pena mencionar `copy()` para duplicar un registro existente; Toma eso como un argumento opcional y un diccionario con los valores para escribir en el nuevo registro. Por ejemplo, para crear una nueva copia de usuario desde el usuario de demostración:
 
 ```
-
 >>> demo = self.env.ref('base.user_demo')
-
-
-
-
-
 >>> new = demo.copy({'name': 'Daniel', 'login': 'dr', 'email':''})
-
 ```
 
 #### Nota
@@ -748,33 +599,11 @@ Corresponden a `%Y-%m-%d and %Y-%m-%d %H:%M:%S` respectivamente.
 Para ayudar a manejar fechas, `fields.Date` y `fields.Datetime` proporcionan pocas funciones. Por ejemplo:
 
 ```
-
 >>> from odoo import fields
-
-
-
-
-
 >>> fields.Datetime.now()
-
-
-
-
-
 '2014-12-08 23:36:09'
-
-
-
-
-
 >>> fields.Datetime.from_string('2014-12-08 23:36:09')
-
-
-
-
-
 datetime.datetime(2014, 12, 8, 23, 36, 9)
-
 ```
 
 Las fechas y horas son manejadas y almacenadas por el servidor en un formato UTC, que no es consciente de la zona horaria y puede ser diferente de la zona horaria en la que el usuario está trabajando. Debido a esto, podemos hacer uso de algunas otras funciones para ayudarnos a lidiar con esto:
@@ -807,99 +636,22 @@ También están disponibles las siguientes operaciones:
 Estos son algunos ejemplos de uso para estas funciones:
 
 ```
-
 >>> rs0 = self.env['res.partner'].search([])
-
-
-
-
-
 >>> len(rs0)  # how many records?
-
-
-
-
-
 40
-
-
-
-
-
 >>> starts_A = lambda r: r.name.startswith('A')
-
-
-
-
-
 >>> rs1 = rs0.filtered(starts_A)
-
-
-
-
-
 >>> print rs1
-
-
-
-
-
 res.partner(8, 7, 19, 30, 3)
-
-
-
-
-
 >>> rs2 = rs1.filtered('is_company')
-
-
-
-
-
 >>> print rs2
-
-
-
-
-
 res.partner(8, 7)
-
-
-
-
-
 >>> rs2.mapped('name')
-
-
-
-
-
 [u'Agrolait', u'ASUSTeK']
-
-
-
-
-
 >>> rs2.mapped(lambda r: (r.id, r.name))
-
-
-
-
-
 [(8, u'Agrolait'), (7, u'ASUSTeK')]
-
-
-
-
-
 >> rs2.sorted(key=lambda r: r.id, reverse=True)
-
-
-
-
-
 res.partner(8, 7)
-
 ```
 
 ### Manipulando conjuntos de registros
@@ -945,78 +697,23 @@ Como vimos anteriormente, los modelos pueden tener campos relacionales: **muchos
 En el caso de muchos-a-uno, el valor puede ser un singleton o un conjunto de registros vacío. En ambos casos, podemos acceder directamente a sus valores de campo. Por ejemplo, las siguientes instrucciones son correctas y seguras:
 
 ```
-
 >>> self.company_id
-
-
-
-
-
 res.company(1,)
-
-
-
-
-
 >>> self.company_id.name
-
-
-
-
-
 u'YourCompany'
-
-
-
-
-
 >>> self.company_id.currency_id
-
-
-
-
-
 res.currency(1,)
-
-
-
-
-
-
 >>> self.company_id.currency_id.name
-
-
-
-
-
 u'EUR'
-
 ```
 
 Convenientemente, un conjunto de registros vacío también se comporta como singleton, y el acceso a sus campos no devuelve un error, pero simplemente devuelve `False`. Debido a esto, podemos recorrer registros usando la notación de puntos sin preocuparnos por errores de valores vacíos, como se muestra aquí:
 
 ```
-
 >>> self.company_id.country_id
-
-
-
-
-
 res.country()
-
-
-
-
-
 >>> self.company_id.country_id.name
-
-
-
-
-
 False
-
 ```
 
 ### Trabajando con campos relacionales
