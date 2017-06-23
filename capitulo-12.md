@@ -49,7 +49,8 @@ Vamos a tener un primer contacto con la API externa de Odoo. Inicie una consola 
 >>> srv = 'http://localhost:8069'
 >>> common = xmlrpclib.ServerProxy('%s/xmlrpc/2/common' % srv)
 >>> common.version()
-{'server_version_info': [10, 0, 0, 'final', 0, ''], 'server_serie': '10.0', 'server_version': '10.0', 'protocol_version': 1}
+{'server_version_info': [10, 0, 0, 'final', 0, ''], 'server_serie': '10.0', 
+'server_version': '10.0', 'protocol_version': 1}
 ```
 Aquí, importamos la biblioteca xmlrpclib y luego configuramos una variable con la información para la dirección del servidor y el puerto de escucha. Siéntete libre de adaptarlos a tu configuración específica.
 
@@ -93,9 +94,11 @@ El ejemplo anterior llama al método `search_count` del modelo `res.partner` con
 Las acciones frecuentes son buscar y leer. Cuando se llama desde el RPC, el método `search` devuelve una lista de identificadores que coinciden con un dominio. El método `browse` no está disponible en el RPC, y leer debe ser utilizado en su lugar para dar una lista de IDs de registro y recuperar sus datos, como se muestra en el código siguiente:
 
 ```
->>> api.execute_kw(db, uid, pwd, 'res.partner', 'search', [[('country_id', '=', 'be'), ('parent_id', '!=', False)]]) 
+>>> api.execute_kw(db, uid, pwd, 'res.partner', 'search', [[('country_id', '=', 'be'), 
+('parent_id', '!=', False)]]) 
 [18, 33, 23, 22] 
->>> api.execute_kw(db, uid, pwd, 'res.partner', 'read',  [[18]],  {'fields': ['id', 'name', 'parent_id']}) 
+>>> api.execute_kw(db, uid, pwd, 'res.partner', 'read',  [[18]],  {'fields': 
+['id', 'name', 'parent_id']}) 
 [{'parent_id': [8, 'Agrolait'], 'id': 18, 'name': 'Edward Foster'}]
 ```
 
@@ -104,7 +107,8 @@ Ten en cuenta que para el método `read`, estamos utilizando un argumento de pos
 La combinación de búsqueda y lectura es tan frecuente que se proporciona un método `search_read` para realizar ambas operaciones en un solo paso. El mismo resultado que los dos pasos previos se puede obtener con lo siguiente:
 
 ```
->>> api.execute_kw(db, uid, pwd, 'res.partner', 'search_read',  [[('country_id', '=', 'be'), ('parent_id', '!=', False)]],  {'fields': ['id', 'name', 'parent_id']})
+>>> api.execute_kw(db, uid, pwd, 'res.partner', 'search_read',  [[('country_id', '=', 'be'), 
+('parent_id', '!=', False)]],  {'fields': ['id', 'name', 'parent_id']})
 ```
 El método `search_read` se comporta como `read`, pero espera un dominio como un primer argumento posicional en lugar de una lista de IDs. Vale la pena mencionar que el argumento `field` en `read` y `search_read` no es obligatorio. Si no se proporciona, se recuperarán todos los campos. Esto puede causar costosos cálculos de campos de función y una gran cantidad de datos que se recuperarán, pero probablemente nunca se utiliza, por lo que generalmente se recomienda proporcionar una lista explícita de campos.
 
