@@ -98,7 +98,6 @@ Necesitamos importar la excepción `Warning` en la parte superior del archivo:
 
 ```
 from odoo.exceptions import Warning
-
 ```
 
 Y agregua a la clase de prueba un método con otro caso de prueba:
@@ -144,7 +143,8 @@ En Odoo 10 pruebas YAML ya no se utilizan, pero aquí es un ejemplo, desde el `0
 - 
   I click on the "Make Payment" wizard to pay the PoS order 
 - 
-  !record {model: pos.make.payment, id: pos_make_payment_2, context: '{"active_id": ref("pos_order_pos1"), "active_ids": [ref("pos_order_pos1")]}' }: 
+  !record {model: pos.make.payment, id: pos_make_payment_2, context: 
+  '{"active_id": ref("pos_order_pos1"), "active_ids": [ref("pos_order_pos1")]}' }: 
     amount: !eval > 
         (450*2 + 300*3*1.05)*0.95 
 - 
@@ -212,7 +212,6 @@ Para usar el depurador, el mejor enfoque es insertar un punto de interrupción e
 
 ```
 import pdb; pdb.set_trace() 
-
 ```
 
 Ahora reinicia el servidor para que se cargue el código modificado. Tan pronto como la ejecución del programa llegue a esa línea, se mostrará un prompt de Python (`pdb`) en la ventana de terminal donde se está ejecutando el servidor, esperando por nuestra entrada.
@@ -274,7 +273,8 @@ Al ejecutar la línea de retorno, usando `n` una vez más, se mostrarán los val
 
 ```
 --Return--
-> /home/daniel/odoo-dev/custom-addons/todo_wizard/models/todo_wizard_model.py(59)do_populate_tasks()->{'res_id': 14, 'res_model': 'todo.wizard', 'target': 'new', 'type': 'ir.actions.act_window', ...}
+> /home/daniel/odoo-dev/custom-addons/todo_wizard/models/todo_wizard_model.py(59)do_populate_tasks()
+->{'res_id': 14, 'res_model': 'todo.wizard', 'target': 'new', 'type': 'ir.actions.act_window', ...}
 -> return self._reopen_form()
 ```
 
@@ -287,14 +287,7 @@ Mientras que `pdb` tiene la ventaja de estar disponible fuera de la caja, puede 
 El depurador de hierro de Python, `ipdb`, es una opción popular que utiliza los mismos comandos que `pdb`, pero añade mejoras como la finalización de tabulaciones y el resaltado de sintaxis, para un uso más cómodo. Se puede instalar con:
 
 ```
-
 $ sudo pip install ipdb
-
-
-
-
-
-
 ```
 
 Y se agrega un punto de interrupción con la línea:
@@ -310,15 +303,8 @@ Otro depurador alternativo es `pudb`. También soporta los mismos comandos que `
 Se puede instalar a través del gestor de paquetes del sistema o a través de `pip`, como se muestra aquí:
 
 ```
-
 $ sudo apt-get install python-pudb  # using OS packages
-
-
-
-
-
 $ sudo pip install pudb  # using pip, possibly in a virtualenv
-
 ```
 
 La adición de un punto de interrupción `pudb` se hace justo de la manera que esperarías:
@@ -349,12 +335,7 @@ Ahora queremos enviar una señal al proceso. El comando utilizado para hacer eso
 Conociendo el PID para nuestro proceso de servidor Odoo en ejecución, podemos imprimir las trazas del código que se está ejecutando actualmente usando:
 
 ```
-
 $ kill -3 <PID>
-
-
-
-
 ```
 
 Si observamos la ventana de terminal o el archivo de registro donde se está escribiendo la salida del servidor, veremos la información de los varios subprocesos que se están ejecutando y los trazados detallados de la pila en la línea de código que están ejecutando.
@@ -362,13 +343,7 @@ Si observamos la ventana de terminal o el archivo de registro donde se está esc
 También podemos ver un volcado de las estadísticas de caché/memoria usando:
 
 ```
-
 $ kill -USR1 <PID>
-
-
-
-
-
 ```
 
 ## Resumen
