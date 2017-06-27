@@ -605,7 +605,8 @@ Proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
 Gzip on
 Gzip_min_length 1100;
 Gzip_buffers 4 32k;
-Gzip_types text/plain text /xml text/css texto/less application/x-javascript application/xml application/json application/javascript;
+Gzip_types text/plain text /xml text/css texto/less application/x-javascript application/
+xml application/json application/javascript;
 Gzip_vary on;
 ```
 También podemos activar el almacenamiento en caché de contenido estático para respuestas más rápidas a los tipos de solicitudes mencionadas en el ejemplo de código anterior y para evitar su carga en el servidor Odoo. Después de la  sección `location`, agrega la siguiente segunda sección de ubicación:
